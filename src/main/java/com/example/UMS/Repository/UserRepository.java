@@ -11,12 +11,13 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User,Integer> {
 
     User findUserById(Integer id);
+
     User findUserByEmail(String email);
     List<User> findUserByRole(String role);
-    @Query("SELECT ")
+    @Query("select u from User u where u.age >= ?1")
     List<User> getUsersByAge(Integer range);
 
-    @Query("")
+    @Query("select u from User u where u.username = ?1 and u.password = ?2")
     User logIn(String username,String password);
 
 }

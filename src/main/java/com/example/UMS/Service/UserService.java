@@ -5,6 +5,7 @@ import com.example.UMS.Repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,4 +41,35 @@ public class UserService {
         userRepository.delete(user);
         return true;
     }
+
+
+    public String logIn(String[] info){
+        try {
+            String username =  info[0];
+            String password = info[1];
+            User user = userRepository.logIn(username, password);
+            if (user == null) return "Username or Password wrong";
+            return "log in successfully";
+           }catch (ArrayIndexOutOfBoundsException e){
+            return "log-in info is missing";
+        }
+        catch (Exception e){return e.getMessage();}
+    }
+
+    public User getByEmail(String email){
+        return userRepository.findUserByEmail(email);
+    }
+
+    public List<User> getByRole(String role){
+        if(role.equalsIgnoreCase("user")||role.equalsIgnoreCase("admin")){
+            return userRepository.findUserByRole(role);
+        }
+        return null;
+    }
+
+    public List<User> getByAge(Integer range){
+
+        return userRepository.getUsersByAge(range);
+    }
+
 }
